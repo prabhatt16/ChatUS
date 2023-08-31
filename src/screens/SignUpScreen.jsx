@@ -29,6 +29,8 @@ const SignupScreen = () => {
       });
       navigation.replace('home');
     } catch (error) {
+      setLoading(false);
+
       console.error('Error', error);
     }
   };
@@ -81,7 +83,6 @@ const SignupScreen = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-
       if (error.code === 'auth/email-already-in-use') {
         setErrorMessage(
           'Email is already in use. Please use a different email.',
