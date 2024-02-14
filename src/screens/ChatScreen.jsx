@@ -24,6 +24,10 @@ const ChatScreen = ({route}) => {
     setTextInputHeight(contentHeight);
   };
 
+  const capitalizeFirstLetter = str => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   useEffect(() => {
     const chatRef = firestore()
       .collection('chats')
@@ -65,85 +69,95 @@ const ChatScreen = ({route}) => {
 
   return (
     <View style={{flex: 1}}>
-      <Header title={selectedUser?.username} isBack={true} />
+      <Header
+        title={capitalizeFirstLetter(selectedUser?.username)}
+        isBack={true}
+        backgroundColor={'#183D3D'}
+      />
 
-      <FlatList
-        data={messages}
-        keyExtractor={(item, index) => index.toString()}
-        style={{flex: 1, paddingHorizontal: 8, marginTop: 8}}
-        ref={flatListRef}
-        contentContainerStyle={{flexGrow: 1}}
-        renderItem={({item}) => (
-          <View
-            style={{
-              alignItems:
-                item?.senderId === currentUser?.uid ? 'flex-end' : 'flex-start',
-              paddingVertical: 3,
-              marginHorizontal: 6,
-            }}>
+      <View style={{backgroundColor: '#93B1A6', flex: 1}}>
+        <FlatList
+          data={messages}
+          keyExtractor={(item, index) => index.toString()}
+          style={{flex: 1, paddingHorizontal: 8, marginTop: 8}}
+          ref={flatListRef}
+          contentContainerStyle={{flexGrow: 1}}
+          renderItem={({item}) => (
             <View
               style={{
-                backgroundColor:
-                  item?.senderId === currentUser?.uid ? '#DCF8C6' : '#E5E5E5',
-                padding: 8,
-                borderRadius: 8,
-                maxWidth: '80%',
+                alignItems:
+                  item?.senderId === currentUser?.uid
+                    ? 'flex-end'
+                    : 'flex-start',
+                paddingVertical: 3,
+                marginHorizontal: 6,
+                backgroundColor: '#93B1A6',
               }}>
-              <Text style={{color: 'black'}}>{item?.text}</Text>
-              <Text
+              <View
                 style={{
-                  fontSize: 12,
-                  alignSelf:
-                    item.senderId === currentUser?.uid
-                      ? 'flex-end'
-                      : 'flex-start',
-                  color: item.senderId === currentUser?.uid ? 'black' : 'gray',
+                  backgroundColor:
+                    item?.senderId === currentUser?.uid ? '#DCF8C6' : '#E5E5E5',
+                  padding: 8,
+                  borderRadius: 8,
+                  maxWidth: '80%',
                 }}>
-                {new Date(item?.timestamp?.seconds * 1000).toLocaleTimeString(
-                  [],
-                  {hour: '2-digit', minute: '2-digit'},
-                )}
-              </Text>
+                <Text style={{color: 'black'}}>{item?.text}</Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    alignSelf:
+                      item.senderId === currentUser?.uid
+                        ? 'flex-end'
+                        : 'flex-start',
+                    color:
+                      item.senderId === currentUser?.uid ? 'black' : 'gray',
+                  }}>
+                  {new Date(item?.timestamp?.seconds * 1000).toLocaleTimeString(
+                    [],
+                    {hour: '2-digit', minute: '2-digit'},
+                  )}
+                </Text>
+              </View>
             </View>
-          </View>
-        )}
-        onContentSizeChange={() => {
-          if (flatListRef.current) {
-            flatListRef.current.scrollToEnd();
-          }
-        }}
-      />
-      <View style={{marginBottom: 90}}></View>
-
-      <View style={styles.textContainer}>
-        <TextInput
-          value={newMessage}
-          onChangeText={setNewMessage}
-          style={[styles.textInput, {height: textInputHeight}]}
-          placeholder="Type your message"
-          multiline={true}
-          placeholderTextColor={'gray'}
-          onContentSizeChange={e =>
-            handleContentSizeChange(
-              e.nativeEvent.contentSize.width,
-              e.nativeEvent.contentSize.height,
-            )
-          }
-          textAlignVertical="top"
+          )}
+          onContentSizeChange={() => {
+            if (flatListRef.current) {
+              flatListRef.current.scrollToEnd();
+            }
+          }}
         />
-        <TouchableOpacity
-          onPress={sendMessage}
-          disabled={newMessage?.length > 0 ? false : true}>
-          <Icon
-            name="send"
-            size={24}
-            style={{
-              marginRight: 8,
-              opacity: newMessage?.length > 0 ? 1 : 0.5,
-            }}
-            color={'gray'}
+        <View style={{marginBottom: 90}}></View>
+
+        <View style={styles.textContainer}>
+          <TextInput
+            value={newMessage}
+            onChangeText={setNewMessage}
+            style={[styles.textInput, {height: textInputHeight}]}
+            placeholder="Type your message"
+            multiline={true}
+            placeholderTextColor={'gray'}
+            onContentSizeChange={e =>
+              handleContentSizeChange(
+                e.nativeEvent.contentSize.width,
+                e.nativeEvent.contentSize.height,
+              )
+            }
+            textAlignVertical="top"
           />
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={sendMessage}
+            disabled={newMessage?.length > 0 ? false : true}>
+            <Icon
+              name="send"
+              size={24}
+              style={{
+                marginRight: 8,
+                opacity: newMessage?.length > 0 ? 1 : 0.5,
+              }}
+              color={'#183D3D'}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -153,23 +167,26 @@ const styles = StyleSheet.create({
   textContainer: {
     position: 'absolute',
     bottom: 0,
-    width: '98%',
+    width: '100%',
     marginTop: 12,
     alignSelf: 'center',
-    borderWidth: 1,
-    borderRadius: 8,
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
     borderColor: 'gray',
     display: 'flex',
     marginBottom: 1,
-    paddingVertical: 12,
+    paddingVertical: 6,
+    margin: 12,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
+    backgroundColor: 'white',
   },
   textInput: {
     fontSize: 17,
     width: '90%',
     paddingHorizontal: 10,
+    backgroundColorc: 'white',
     color: 'black',
     borderRadius: 8,
     textAlignVertical: 'top',

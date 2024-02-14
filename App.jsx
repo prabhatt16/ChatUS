@@ -6,6 +6,7 @@ import SigninScreen from './src/screens/SignInScreen';
 import ChatScreen from './src/screens/ChatScreen';
 import {StatusBar} from 'react-native';
 import Home from './src/screens/Home';
+import SplashScreen from './src/screens/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         screenOptions={{
           headerShown: false,
         }}>
+        <Stack.Screen name="splashscreen" component={SplashScreen} />
         <Stack.Screen name="signin" component={SigninScreen} />
         <Stack.Screen name="signup" component={SignupScreen} />
         <Stack.Screen name="home" component={Home} />

@@ -31,28 +31,34 @@ const Home = () => {
     return () => unsubscribe();
   }, []);
 
+  const capitalizeFirstLetter = str => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
   return (
-    <View>
-      <Header title={'Chat'} />
-      <Text style={styles.title}>
-        Hello {auth().currentUser?.displayName}, let's chat with your friends!
-      </Text>
-      <View style={{padding: 12}}>
-        <Text style={{color: 'gray', fontWeight: 'bold', marginVertical: 2}}>
-          Friend
+    <View style={{backgroundColor: '#183D3D', flex: 1}}>
+      <Header title={'Chat'} subTitle={'US'} />
+      {activeUsers && (
+        <Text style={styles.title}>
+          Hello {auth().currentUser?.displayName}, your friends are there.
         </Text>
-        <FlatList
-          data={activeUsers.filter(
-            item => item.userId !== auth().currentUser?.uid,
-          )}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <UserListItem
-              title={item.username}
-              handleClick={() => handleUserPress(item)}
-            />
-          )}
-        />
+      )}
+      <View style={{padding: 12}}>
+        {activeUsers ? (
+          <FlatList
+            data={activeUsers.filter(
+              item => item.userId !== auth().currentUser?.uid,
+            )}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
+              <UserListItem
+                title={capitalizeFirstLetter(item.username)}
+                handleClick={() => handleUserPress(item)}
+              />
+            )}
+          />
+        ) : (
+          <Text style={styles.noUser}>NO USER HERE :/</Text>
+        )}
       </View>
     </View>
   );
@@ -62,9 +68,22 @@ export default Home;
 
 const styles = StyleSheet.create({
   title: {
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
     paddingHorizontal: 7,
+    fontSize: 12,
+    marginLeft: 12,
+    fontFamily: 'monospace',
+    marginTop: 12,
+  },
+  noUser: {
+    color: 'white',
+    fontWeight: 'bold',
+    paddingHorizontal: 7,
+    fontSize: 12,
+    marginLeft: 12,
+    textAlign: 'center',
+    fontFamily: 'monospace',
     marginTop: 12,
   },
 });

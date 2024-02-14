@@ -1,4 +1,4 @@
-import React, {isValidElement, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   TextInput,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
@@ -30,13 +31,14 @@ const SignupScreen = () => {
       navigation.replace('home');
     } catch (error) {
       setLoading(false);
-
       console.error('Error', error);
     }
   };
+
   const handleSignIn = async () => {
     navigation.replace('signin');
   };
+
   const handleSignup = async () => {
     let re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -45,7 +47,7 @@ const SignupScreen = () => {
       setErrorMessage('Please fill in all fields.');
       return;
     } else if (password.length < 6) {
-      setErrorMessage('Password should contain 6 charactors.');
+      setErrorMessage('Password should contain 6 characters.');
       return;
     } else if (!re.test(email)) {
       setErrorMessage('Email is not valid, try again!');
@@ -54,17 +56,6 @@ const SignupScreen = () => {
 
     try {
       setLoading(true);
-
-      if (!username || !email || !password) {
-        setErrorMessage('Please fill in all fields.');
-        return;
-      } else if (password.length < 6) {
-        setErrorMessage('Password should contain 6 characters.');
-        return;
-      } else if (!re.test(email)) {
-        setErrorMessage('Email is not valid, please try again.');
-        return;
-      }
 
       const userCredential = await auth().createUserWithEmailAndPassword(
         email,
@@ -95,18 +86,20 @@ const SignupScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.signupText}>SignUp</Text>
+      <Text style={styles.signUpText}>Sign Up</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
         onChangeText={setUsername}
         value={username}
+        placeholderTextColor="#ffffff"
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
         onChangeText={setEmail}
         value={email}
+        placeholderTextColor="#ffffff"
       />
       <TextInput
         style={styles.input}
@@ -114,26 +107,22 @@ const SignupScreen = () => {
         secureTextEntry
         onChangeText={setPassword}
         value={password}
+        placeholderTextColor="#ffffff"
       />
       <Text style={styles.errorText}>{errorMessage}</Text>
       {loading ? (
-        <ActivityIndicator size={'small'} color={'blue'} />
+        <ActivityIndicator size="small" color="#ffffff" />
       ) : (
-        <Button title="Sign Up" color={'black'} onPress={handleSignup} />
+        <TouchableOpacity
+          style={[styles.button, {backgroundColor: '#93B1A6'}]}
+          onPress={handleSignup}>
+          <Text style={[styles.buttonText, {color: 'black'}]}>{'Sign Up'}</Text>
+        </TouchableOpacity>
       )}
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          marginTop: 12,
-        }}>
-        <Text style={styles.signInText}>Already have an account? </Text>
-        <Text
-          style={{color: 'blue', marginTop: 20, fontSize: 16}}
-          onPress={handleSignIn}>
-          SignIn
+      <View style={styles.subContainer}>
+        <Text style={{color: 'grey'}}>Already have an account? </Text>
+        <Text style={styles.signInLink} onPress={handleSignIn}>
+          Sign In
         </Text>
       </View>
     </View>
@@ -146,29 +135,54 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: '#121212',
   },
   input: {
     width: '80%',
     marginBottom: 10,
     padding: 10,
-    color: 'black',
+    color: '#ffffff',
     borderBottomWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#ffffff',
+    outlineStyle: 'none',
   },
   errorText: {
     color: 'red',
     marginBottom: 10,
   },
-  signInText: {
-    marginTop: 20,
-    fontSize: 16,
-    color: '#888',
-  },
-  signupText: {
+  signUpText: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: 'black',
+    color: '#ffffff',
+  },
+  signInText: {
+    color: '#ffffff',
+    fontSize: 16,
+    marginRight: 5,
+  },
+  signInLink: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  subContainer: {
+    flexDirection: 'row',
+    marginTop: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    width: '80%',
+    marginBottom: 10,
+    padding: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 900,
   },
 });
 

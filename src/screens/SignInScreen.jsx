@@ -6,14 +6,13 @@ import {
   StyleSheet,
   Text,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 
 const SigninScreen = () => {
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,39 +23,29 @@ const SigninScreen = () => {
     const user = auth()?.currentUser;
     if (user !== null) {
       setIsUser(true);
-      console.log(isUser);
       navigation.replace('home');
     } else {
       setIsUser(false);
-      console.log(user);
     }
-  }, [isUser]);
+  }, [isUser, navigation]);
 
   const handleSignUp = () => {
     navigation.replace('signup');
   };
 
   const handleSignin = async () => {
-    let re =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
     if (!email || !password) {
       setErrorMessage('Please fill in all fields.');
       return;
     } else if (password.length < 6) {
-      setErrorMessage('Password should contain 6 charactors.');
-      return;
-    } else if (!re.test(email)) {
-      setErrorMessage('Email is not valid, try again!');
+      setErrorMessage('Password should contain at least 6 characters.');
       return;
     }
+
     try {
       setLoading(true);
-      await auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => {
-          navigation.replace('home');
-        });
+      await auth().signInWithEmailAndPassword(email, password);
+      navigation.replace('home');
     } catch (error) {
       setLoading(false);
       setErrorMessage('Error: ' + error.message);
@@ -64,41 +53,61 @@ const SigninScreen = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
       {isUser ? (
-        <View style={styles.container}>
-          <ActivityIndicator size={'large'} color={'blue'} />
-        </View>
+        <ActivityIndicator size="large" color="#ffffff" />
       ) : (
-        <View style={styles.container}>
-          <Text style={styles.signinText}>SignIn</Text>
-          <TextInput
-            style={styles.input}
-            keyboardType="email-address"
-            placeholder="Email"
-            onChangeText={setEmail}
-            value={email}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            secureTextEntry
-            onChangeText={setPassword}
-            value={password}
-          />
+        <>
+          <Text style={styles.signinText}>Sign In</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              keyboardType="email-address"
+              placeholder="Email"
+              onChangeText={setEmail}
+              value={email}
+              placeholderTextColor="#ffffff"
+              selectionColor="#ffffff"
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              secureTextEntry
+              onChangeText={setPassword}
+              value={password}
+              placeholderTextColor="#ffffff"
+              selectionColor="#ffffff"
+            />
+          </View>
           <Text style={styles.errorText}>{errorMessage}</Text>
           {loading ? (
-            <ActivityIndicator size={'small'} color={'blue'} />
+            <ActivityIndicator size="small" color="#ffffff" />
           ) : (
-            <Button title="Sign In" color={'black'} onPress={handleSignin} />
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: '#93B1A6'}]}
+              onPress={handleSignin}>
+              <Text style={[styles.buttonText, {color: 'black'}]}>
+                {'Sign In'}
+              </Text>
+            </TouchableOpacity>
           )}
           <View style={styles.subContainer}>
-            <Text style={{color: 'gray'}}>Don't have an account? </Text>
-            <Text style={{color: 'blue', fontSize: 16}} onPress={handleSignUp}>
-              SignUp
+            <Text style={{color: 'grey', marginRight: 5}}>
+              Don't have an account?
+            </Text>
+            <Text
+              style={{
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: 16,
+              }}
+              onPress={handleSignUp}>
+              Sign Up
             </Text>
           </View>
-        </View>
+        </>
       )}
     </View>
   );
@@ -110,14 +119,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: '#121212',
   },
-  input: {
+  inputContainer: {
     width: '80%',
     marginBottom: 10,
-    padding: 10,
     borderBottomWidth: 1,
-    color: 'black',
-    borderColor: '#ccc',
+    borderBottomColor: '#ffffff',
+  },
+  input: {
+    width: '100%',
+    padding: 10,
+    color: '#ffffff',
+    borderWidth: 0, // Set border width to zero
+    borderBottomWidth: 1, // If you still want to keep the bottom border, you can set it separately
+    borderColor: 'transparent',
   },
   errorText: {
     color: 'red',
@@ -127,14 +143,25 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: 'black',
+    color: '#ffffff',
   },
   subContainer: {
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 12,
+    marginTop: 16,
+  },
+  button: {
+    width: '80%',
+    marginBottom: 10,
+    padding: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 900,
   },
 });
 

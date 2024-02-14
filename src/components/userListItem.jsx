@@ -5,7 +5,7 @@ const UserListItem = ({title, handleClick}) => {
   return (
     <TouchableOpacity onPress={handleClick} style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <RightIcon name="right" size={20} color={'black'} />
+      <RightIcon name="caretright" size={20} color={'black'} />
     </TouchableOpacity>
   );
 };
@@ -18,9 +18,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'cyan',
-    padding: 12,
-    marginVertical: 6,
+    backgroundColor: '#93B1A6',
+    borderRadius: 12,
+    marginVertical: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderWidth: 3,
+    borderColor: '#040D12',
   },
   title: {color: 'black', fontWeight: 'bold', fontSize: 18},
 });
