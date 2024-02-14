@@ -24,7 +24,7 @@ const Header = ({title, subTitle, isBack, backgroundColor}) => {
       <View style={styles.subContainer}>
         {isBack && (
           <Icon
-            name="arrowleft"
+            name="caretleft"
             size={20}
             color="white"
             onPress={() => {
@@ -46,9 +46,14 @@ const Header = ({title, subTitle, isBack, backgroundColor}) => {
         </View>
       </View>
       {!isBack && (
-        <TouchableOpacity onPress={handleLogout}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </TouchableOpacity>
+        <Icon
+          name="logout"
+          size={20}
+          color="white"
+          onPress={() => {
+            handleLogout();
+          }}
+        />
       )}
     </View>
   );

@@ -23,11 +23,11 @@ const SplashScreen = ({navigation}) => {
     };
   }, [counter]);
 
-//   useEffect(() => {
-//     setTimeout(() => {
-//       isUser ? navigation.replace('home') : navigation.replace('signin');
-//     }, 2500);
-//   }, [navigation]);
+  useEffect(() => {
+    setTimeout(() => {
+      isUser ? navigation.replace('home') : navigation.replace('signin');
+    }, 2500);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -41,11 +41,11 @@ const SplashScreen = ({navigation}) => {
         <Text style={styles.title}>Chat</Text>
         <Text style={styles.subTitle}>US</Text>
       </View>
-      {/* <View style={styles.loaderContainer}>
+      <View style={styles.loaderContainer}>
         {counterArr?.map(index => (
           <View style={styles.loaderBox} key={index} />
         ))}
-      </View> */}
+      </View>
     </View>
   );
 };
