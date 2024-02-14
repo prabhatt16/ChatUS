@@ -1,4 +1,4 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+![Screenshot_1707934543](https://github.com/prabhatt16/ChatUS/assets/67869503/1f221d8f-9f68-47e0-aa54-196f10377db4)This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
 
@@ -42,4 +42,4 @@ npm run ios
 yarn ios
 ```
 ### App demo
-![Screenshot_1707934553](https://github.com/prabhatt16/ChatUS/assets/67869503/cf122e8b-b210-4f37-bb30-da397ce7d6f5)
+<img width="1208" alt="Screenshot 2024-02-14 at 11 51 43 PM" src="https://github.com/prabhatt16/ChatUS/assets/67869503/867e508d-b647-4ee2-858d-36baa9bb967b">
