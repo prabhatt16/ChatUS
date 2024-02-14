@@ -40,5 +40,5 @@ npm run ios
 yarn ios
 ```
 ### App Screens
-<img width="1356" alt="Screenshot 2024-02-15 at 12 03 36 AM" src="https://github.com/prabhatt16/ChatUS/assets/67869503/7f1f03d7-7d12-49b2-a459-cf871b271c3f">
+<img width="1324" alt="Screenshot 2024-02-15 at 12 06 41 AM" src="https://github.com/prabhatt16/ChatUS/assets/67869503/61bd54ee-cbb9-4557-aa8b-b353e9db9e9c">
 
