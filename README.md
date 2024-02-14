@@ -1,5 +1,3 @@
-![Screenshot_1707934543](https://github.com/prabhatt16/ChatUS/assets/67869503/1f221d8f-9f68-47e0-aa54-196f10377db4)This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
-
 # Getting Started
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
