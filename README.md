@@ -39,5 +39,6 @@ npm run ios
 # OR using Yarn
 yarn ios
 ```
-### App demo
-<img width="1208" alt="Screenshot 2024-02-14 at 11 51 43 PM" src="https://github.com/prabhatt16/ChatUS/assets/67869503/867e508d-b647-4ee2-858d-36baa9bb967b">
+### App Screens
+<img width="1356" alt="Screenshot 2024-02-15 at 12 03 36 AM" src="https://github.com/prabhatt16/ChatUS/assets/67869503/7f1f03d7-7d12-49b2-a459-cf871b271c3f">
+
